@@ -14,7 +14,7 @@ function eventListeners (){
   document.querySelector('#formulario').addEventListener('submit', 
   agregarTarea);
 
-
+  listaTareas.addEventListener('click', borrarTarea);
 
 }
 
@@ -44,5 +44,17 @@ function eventListeners (){
     // añade la tarea a la lista
     listaTareas.appendChild(li);
 
+
+ }
+
+
+// Borrar tarea
+ function borrarTarea (e) {
+   e.preventDefault();
+   
+  if(e.target.className === 'borrar-tarea') {
+    console.log(e.target.parentElement.remove());
+    alert('Tarea Eliminada');
+  }
 
  }
