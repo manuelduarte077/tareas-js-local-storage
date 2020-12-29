@@ -50,8 +50,8 @@ function borrarTarea(e) {
   e.preventDefault();
 
   if (e.target.className === "borrar-tarea") {
-    console.log(e.target.parentElement.remove());
-    alert("Tarea Eliminada");
+    e.target.parentElement.remove();
+    borrarTareaLocalStorage(e.target.parentElement.innerText);
   }
 }
 
@@ -103,4 +103,24 @@ function obtenerTareaLocalStorage() {
   }
 
   return tareas;
+}
+
+
+
+// Funcion para eliminar del localStorage
+function borrarTareaLocalStorage(tarea) {
+
+  let tareas, tareaBorrar;
+  // Elimina la X de la tarea
+  tareaBorrar = tarea.substring(0, tarea.length - 1)
+
+  tareas = obtenerTareaLocalStorage();
+
+  tareas.forEach(function(tarea, index) {
+    if(tareaBorrar === tarea) {
+      tareas.splice(index, 1)
+    }
+  });
+
+  localStorage.setItem( 'tareas', JSON.stringify(tareas) );
 }
