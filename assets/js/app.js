@@ -1,5 +1,5 @@
 // Variables
-const listaTareas = document.getElementById( "lista-tarea" );
+const listaTareas = document.getElementById("lista-tarea");
 
 // Event Listener
 
@@ -15,7 +15,7 @@ function eventListeners() {
   listaTareas.addEventListener("click", borrarTarea);
 
   // Contenido cargado
-  // document.addEventListener("DOMContentLoaded", localStorageListo);
+  document.addEventListener("DOMContentLoaded", localStorageListo);
 }
 
 // Funciones
@@ -24,42 +24,62 @@ function eventListeners() {
 function agregarTarea(e) {
   e.preventDefault();
   // Leer el valor del textarea
-  const tarea = document.getElementById( "tarea" ).value;
+  const tarea = document.getElementById("tarea").value;
 
   // crear boton de eliminar
-  const botonBorrar = document.createElement( "a" );
+  const botonBorrar = document.createElement("a");
   botonBorrar.classList = "borrar-tarea";
   botonBorrar.innerText = "X";
 
   // Crear elemento y añadirle el contenido a la lista
-  const li = document.createElement( "li" );
+  const li = document.createElement("li");
   li.innerText = tarea;
 
   // añade el botón de borrar la tarea
-  li.appendChild( botonBorrar );
+  li.appendChild(botonBorrar);
 
   // añade la tarea a la lista
-  listaTareas.appendChild( li );
-
+  listaTareas.appendChild(li);
 
   // Añadir a Local Storage
-  agregarTareaLocalStorage( tarea );
-
+  agregarTareaLocalStorage(tarea);
 }
 
 // Borrar tarea
-function borrarTarea( e ) {
+function borrarTarea(e) {
   e.preventDefault();
 
-  if ( e.target.className === "borrar-tarea" ) {
-    console.log( e.target.parentElement.remove() );
-    alert( "Tarea Eliminada" );
+  if (e.target.className === "borrar-tarea") {
+    console.log(e.target.parentElement.remove());
+    alert("Tarea Eliminada");
   }
 }
 
+// Mostrar datos del localstorage en la lista
+function localStorageListo() {
+  let tareas;
+
+  tareas = obtenerTareaLocalStorage();
+
+  tareas.forEach(function (tarea) {
+    // crear boton de eliminar
+    const botonBorrar = document.createElement("a");
+    botonBorrar.classList = "borrar-tarea";
+    botonBorrar.innerText = "X";
+
+    // Crear elemento y añadirle el contenido a la lista
+    const li = document.createElement("li");
+    li.innerText = tarea;
+
+    // añade el botón de borrar la tarea
+    li.appendChild(botonBorrar);
+
+    // añade la tarea a la lista
+    listaTareas.appendChild(li);
+  });
+}
 
 // Agrega tarea a local storage
-
 function agregarTareaLocalStorage(tarea) {
   let tareas;
   tareas = obtenerTareaLocalStorage();
@@ -68,21 +88,19 @@ function agregarTareaLocalStorage(tarea) {
   tareas.push(tarea);
 
   // Convertir de string a arreglo para local storage
-  localStorage.setItem( 'tareas', JSON.stringify( tareas ) );
-
+  localStorage.setItem("tareas", JSON.stringify(tareas));
 }
 
-
-function obtenerTareaLocalStorage () {
+// Comprobar que haya elementos en localstorage, retorna un arreglo
+function obtenerTareaLocalStorage() {
   let tareas;
 
   // Revisamos los valores del local storage
-  if( localStorage.getItem( 'tareas' ) === null ) {
+  if (localStorage.getItem("tareas") === null) {
     tareas = [];
   } else {
-    tareas = JSON.parse( localStorage.getItem( 'tareas' ) );
+    tareas = JSON.parse(localStorage.getItem("tareas"));
   }
 
   return tareas;
-
 }
